@@ -17,7 +17,5 @@ public class Main {
         System.out.println(t1.getGPA());
 
         t1.removeGrade("CPSC-210");
-        t1.updateGrade("ENGL-201", 2.0);
-
     }
 }
