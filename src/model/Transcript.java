@@ -49,8 +49,12 @@ public class Transcript {
 
     //          If course exist updates grade for existing course
     public void addGrade(String course, double grade) {
-        courses.add(course);
-        grades.add(grade);
+        if(!courses.contains(course)) {
+            courses.add(course);
+            grades.add(grade);
+        } else {
+            grades.set(courses.indexOf(course), grade);
+        }
     }
     // REQUIRES: Consumed course exits in list
 
@@ -73,5 +77,8 @@ public class Transcript {
 
     // EFFECTS: Remove course with consumed name
     public void removeGrade(String courseName) {
+        int indexForRemove = courses.indexOf(courseName);
+        courses.remove(indexForRemove);
+        grades.remove(indexForRemove);
     }
 }
