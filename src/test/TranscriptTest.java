@@ -1,6 +1,5 @@
 package test;
 
-import junit.framework.TestCase;
 import model.Transcript;
 import org.junit.Before;
 import org.junit.Test;
