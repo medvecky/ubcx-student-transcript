@@ -12,12 +12,17 @@ import static junit.framework.TestCase.assertEquals;
 
 
 public class TranscriptTest {
-
     private Transcript testTranscript;
     private String testName = "John Dow";
     private int testStudentId = 1;
     private List<String> expectedCourses;
     private List<Double> expectedGrades;
+
+    private void addThreeGrades() {
+        for (int i = 0; i < 3; i++) {
+            testTranscript.addGrade(expectedCourses.get(i), expectedGrades.get(i));
+        }
+    }
 
 
     @Before
@@ -61,12 +66,6 @@ public class TranscriptTest {
         for (int i = 0; i < 3; i++) {
             assertEquals(expectedCourses.get(i), testTranscript.getCourses().get(i));
             assertEquals(expectedGrades.get(i), testTranscript.getGrades().get(i));
-        }
-    }
-
-    private void addThreeGrades() {
-        for (int i = 0; i < 3; i++) {
-            testTranscript.addGrade(expectedCourses.get(i), expectedGrades.get(i));
         }
     }
 
