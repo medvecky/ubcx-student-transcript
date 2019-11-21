@@ -44,14 +44,14 @@ public class TranscriptTest {
     }
 
     @Test
-    public void addOneGrade() {
+    public void testAddOneGrade() {
         String courseName = "TEST_1";
         Double courseGrade = 3.0;
         testTranscript.addGrade(courseName, courseGrade);
         assertEquals(1, testTranscript.getGrades().size());
         assertEquals(1, testTranscript.getCourses().size());
         assertEquals(courseName, testTranscript.getCourses().get(0));
-        assertEquals(3.0, testTranscript.getGrades().get(0));
+        assertEquals(courseGrade, testTranscript.getGrades().get(0));
     }
 
     @Test
@@ -117,5 +117,69 @@ public class TranscriptTest {
             assertEquals(expectedCourses.get(i), testTranscript.getCourses().get(i));
             assertEquals(expectedGrades.get(i), testTranscript.getGrades().get(i));
         }
+    }
+
+    @Test
+    public void testGetCourseAndGrade() {
+        addThreeGrades();
+
+        String expectedResult = expectedCourses.get(1) + ": " + expectedGrades.get(1);
+
+        assertEquals(expectedResult, testTranscript.getCourseAndGrade(expectedCourses.get(1)));
+    }
+
+    @Test
+    public void testGetGpaWithOneRecord() {
+        String courseName = "TEST_1";
+        Double courseGrade = 3.0;
+        testTranscript.addGrade(courseName, courseGrade);
+
+        assertEquals(3.0, testTranscript.getGPA());
+    }
+
+    @Test
+    public void testGetGpaWithFewRecords() {
+        addThreeGrades();
+
+        double expectedResult =
+                Math.round(
+                        (expectedGrades.stream().mapToDouble(a -> a).sum() / expectedGrades.size()) * 1000.0)
+                        / 1000.0;
+
+        assertEquals(expectedResult, testTranscript.getGPA());
+    }
+
+    @Test
+    public void testGetGradeByCourse() {
+        addThreeGrades();
+        assertEquals(expectedGrades.get(1), testTranscript.getGradeByCourse(expectedCourses.get(1)));
+    }
+
+    @Test
+    public void testGetAverageOverSelectedCoursesForFewArgs() {
+        addThreeGrades();
+
+        double expectedResult =
+                Math.round(
+                        (expectedGrades.stream().mapToDouble(a -> a).sum() / expectedGrades.size()) * 1000.0)
+                        / 1000.0;
+
+       List<String> args = new ArrayList<>();
+       args.add(expectedCourses.get(0));
+       args.add(expectedCourses.get(1));
+       args.add(expectedCourses.get(2));
+
+       assertEquals(expectedResult, testTranscript.getAverageOverSelectedCourses(args));
+    }
+
+    @Test
+    public void testGetAverageOverSelectedCoursesForOneArg() {
+        String courseName = "TEST_1";
+        Double courseGrade = 3.0;
+        testTranscript.addGrade(courseName, courseGrade);
+        List<String> args = new ArrayList<>();
+        args.add(courseName);
+
+        assertEquals(courseGrade, testTranscript.getAverageOverSelectedCourses(args));
     }
 }
